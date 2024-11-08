@@ -6,22 +6,32 @@ Empiric::Empiric(int n0, IDistribution& prim, int k0) : n(n0), k(k0), dist(prim)
     data = prim.modelingPool(n0);
     this->n = n0;
     this->k = k0;
+    // Если не задан
+    if (k0 == 0){
+        this->k = int(1+3.322 * log10(n));
+    }
     calculate_fr(n);
 }
 
 Empiric::Empiric(const Empiric& emp) : n(emp.n), k(emp.k), dist(emp.dist) {
     double* dataNew =  new double[emp.getSize()];
-    double* frNew =  new double[emp.getSize()];
+    double* frNew =  new double[k];
+    double* binNew = new double[k];
     double* dataCopy = emp.getData();
     double* frCopy = emp.getFr();
+    double* binCopy = emp.getBins();
+    
     for (int i=0; i<emp.getSize(); i++){
         dataNew[i] = dataCopy[i];
         frNew[i] = frCopy[i];
+
     }
     delete[] data;
     delete[] fr;
+    delete[] bins;
     data = dataNew;
     fr = frNew;
+    bins = binCopy;
 }
 
 Empiric& Empiric::operator=(const Empiric & emp){
@@ -101,29 +111,65 @@ void Empiric::calculate_fr(int size) {
         fr[m]++;
     }
     for (int i = 0; i < k; i++) {
-        bins[i] = min + (max - min) / delta * i;
+        bins[i] = min + delta * i;
         fr[i] = fr[i] / (size * delta);
     }
 }
 
 int Empiric::getSize() const {
+    if (n == 0) throw Exception("Size equels 0");
     return n;
 }
 
 double* Empiric::getData() const{
+    if (data == nullptr) throw Exception("Data doesnt init(");
     return data;
 }
 
 double* Empiric::getFr() const {
+    if (fr == nullptr) throw Exception("Fr doesnt init(");
     return fr;
 }
 
 double* Empiric::getBins() const {
+    if (bins == nullptr) throw Exception("Bins doesnt init(");
     return bins;
 }
 
 void Empiric::load(std::string stream) {
     
+}
+
+Empiric::Empiric(std::string path) : dist(dist) {
+    int count=0;
+    std::ifstream in(path);
+
+    if (!in) {
+        throw Exception("Cant open file");
+    }
+
+    std::string line;
+    while (std::getline(in, line)) {
+        data[count] = stod(line);
+        count++;
+    }
+    this->n = count;
+    calculate_fr(count);
+    this->k = int(1+3.322 * log10(n));
+    in.close();
+}
+
+void Empiric::savePool(std::string path){
+    std::ofstream out;
+    out.open(path);
+    for (int i=0; i<n; i++){
+        if (i == n - 1){
+            out << data[i];
+        }
+        else{
+            out << data[i] << endl;
+        }
+    }
 }
 
 double Empiric::math() const {
@@ -189,6 +235,6 @@ void Empiric::saveTofile(std::string path) const {
     std::ofstream out;
     out.open(path);
     if (out.is_open()) {
-
+        dist.saveTofile(path);
     }
 }

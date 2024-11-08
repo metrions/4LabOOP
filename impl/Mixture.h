@@ -13,8 +13,8 @@ using namespace std;
 */
 class Mixture : public IDistribution {
 private:
-    Distribution distribution1;
-    Distribution distribution2;
+    Distribution& distribution1;
+    Distribution& distribution2;
     float p;
 
     // Возвращает характеристики распределения
@@ -28,9 +28,6 @@ protected:
 
 public:
     Mixture(Distribution& dist1, Distribution& dist2, float p);
-    // Конструктор с чтением из файла
-    Mixture();
-
     // Моделирование случайной величины
     double modeling() const;
     double* modelingPool(int size);

@@ -1,9 +1,7 @@
 #include "Mixture.h"
 #include <cmath>
 
-Mixture::Mixture(Distribution& dist1, Distribution& dist2, float p) {
-    distribution1 = dist1;
-    distribution2 = dist2;
+Mixture::Mixture(Distribution& dist1, Distribution& dist2, float p) : distribution1(dist1), distribution2(dist2) {
     this->p = p;
 }
 
@@ -17,7 +15,6 @@ Distribution Mixture::component2(){
     return distribution2;
 }
 
-// Доделать
 void Mixture::load(std::string path) {
     std::ifstream in;
     in.open(path);
@@ -37,10 +34,6 @@ void Mixture::load(std::string path) {
     component2().setU(tempU2);
 
 }
-
-// Базовый конструктор для наследников
-// Доделать
-Mixture::Mixture() {}
 
 // Моделирование случайных величин (массив)
 double* Mixture::modelingPool(int size) {
@@ -74,16 +67,21 @@ Mixture::~Mixture() {
 double Mixture::math() const {
     double math1 = distribution1.math();
     double math2 = distribution2.math();
-    return p * math1 + math2 * (1-p);
+    return math1 * p + math2 * (1.0-p);
 }
 
 double Mixture::disp() const {
     double* props1 = distribution1.properties();
     double* props2 = distribution2.properties();
     double mathValue = math();
+    cout << props1[0] << endl;
+    cout << props1[1] << endl;
+    cout << props2[0] << endl;
+    cout << props2[1] << endl;
 
     double dispValue = p * (props1[0] * props1[0] + props1[1]) + (1 - p) * (props2[0] * props2[0] + 
     props2[1]) - mathValue * mathValue;
+    // cout << dispValue << endl;
     delete[] props1;
     delete[] props2;
     return dispValue;

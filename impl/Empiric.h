@@ -7,6 +7,7 @@
 #include "./Mixture.h"
 #include <fstream>
 #include <string>
+#include <cmath>
 
 using namespace std;
 /*
@@ -28,12 +29,13 @@ public:
     double disp() const;
     double y1() const;
     double y2() const;
-    Empiric(int n0, IDistribution& prim, int k0=1); // По основному
+    Empiric(int n0, IDistribution& prim, int k0=0); // По основному
 
     // конструктор копирования и оператор присваивания 
     // для глубокого копирования
     Empiric(const Empiric& emp); 
     Empiric& operator=(const Empiric & emp);
+    Empiric(std::string pool);
 
     // Моделирование случайной величины
     double modeling() const;
@@ -68,6 +70,7 @@ public:
     double* getData() const;
     double* getBins() const;
     double* getFr() const;
+    void savePool(std::string path);
     // Деструктор
     ~Empiric();
 };
