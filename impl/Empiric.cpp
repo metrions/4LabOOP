@@ -103,7 +103,7 @@ void Empiric::calculate_fr(int size) {
         if (data[i] < min) min = data[i];
     }
     max += (max - min) * 1e-6;
-    cout << "max = " << max << ", min = " << min << endl;
+    // cout << "max = " << max << ", min = " << min << endl;
     double delta = (max - min) / k;
     for (int i = 0; i < size; i++) {
         int m = int((data[i] - min) / delta);
@@ -228,6 +228,7 @@ double Empiric::density(float x) const {
         if (x >= bins[i] && x < bins[i+1]) return fr[i];
     }
     if (x < bins[0] || x > bins[k-1]) return 0;
+    return 0;
 }
 
 
@@ -235,6 +236,6 @@ void Empiric::saveTofile(std::string path) const {
     std::ofstream out;
     out.open(path);
     if (out.is_open()) {
-        dist.saveTofile(path);
+        // dist.saveTofile(path);
     }
 }

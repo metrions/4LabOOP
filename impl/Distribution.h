@@ -6,12 +6,13 @@
 #include "../Exception.h"
 #include <fstream>
 #include <string>
+#include "../IPersistent.h"
 
 using namespace std;
 /*
     Класс для основного распределения
 */
-class Distribution : public IDistribution {
+class Distribution : public IDistribution, public IPersistent {
 private:
     float v;  // Форма
     float u;  // Сдвиг
@@ -51,8 +52,10 @@ public:
 
     // Запись в файл
     void saveTofile(std::string path) const override;
+    void saveTofile(std::ofstream& out);
     // Загрузка из файла
     void load(std::string stream) override;
+    void load(std::ifstream& in);
 
     // Деструктор
     ~Distribution();

@@ -24,6 +24,24 @@ void Distribution::load(std::string path) {
     setL(tempL);
 }
 
+void Distribution::load(std::ifstream& in){
+    float tempV;
+    float tempU;
+    float tempL;
+    in >> tempV >> tempU >> tempL;
+    setV(tempV);
+    setU(tempU);
+    setL(tempL);
+}
+
+void Distribution::saveTofile(std::ofstream& out){
+    if (out.is_open()) {
+        out << getV() << endl;
+        out << getU() << endl;
+        out << getL() << endl;
+    }
+}
+
 // Базовый конструктор для наследников
 Distribution::Distribution() {}
 

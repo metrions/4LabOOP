@@ -18,10 +18,6 @@ public:
     virtual double* getProperties() const = 0;
     // Вывод характеристик
     virtual void showProperties() const = 0;
-
-    // Запись в файл
-    virtual void saveTofile(std::string path) const = 0;
-    virtual void load(std::string path) = 0;
 };
 
 

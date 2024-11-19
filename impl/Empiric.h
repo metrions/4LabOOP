@@ -5,6 +5,7 @@
 #include "../IDistribution.h"
 #include "./Distribution.h"
 #include "./Mixture.h"
+#include "../IPersistent.h"
 #include <fstream>
 #include <string>
 #include <cmath>
@@ -13,7 +14,7 @@ using namespace std;
 /*
     Класс для основного распределения
 */
-class Empiric : public IDistribution {
+class Empiric : public IDistribution, public IPersistent {
 private:
     int n; // объем выборки
     int k; // количество интервалов 
