@@ -75,8 +75,18 @@ void Mixture<Distribution1, Distribution2>::load(std::string path) {
     in.open(path);
     float pValue;
     in >> p;
-    distribution1.load(in);
-    distribution2.load(in);
+    try{
+        distribution1.load(in);
+    }
+    catch(...){
+        throw Exception("Could not load first component");
+    }
+    try{
+        distribution2.load(in);
+    }
+    catch(...){
+        throw Exception("Could not load second component");
+    }
 }
 
 template<class Distribution1, class Distribution2>
@@ -209,7 +219,6 @@ double Mixture<Distribution1, Distribution2>::density(float x) const {
     return (1-p) * distribution1.density(x) + p * distribution2.density(x);
 }
 
-// Доделать
 template<class Distribution1, class Distribution2>
 void Mixture<Distribution1, Distribution2>::saveTofile(std::string path) const {
     std::ofstream out;

@@ -20,6 +20,4 @@ public:
     virtual void showProperties() const = 0;
 };
 
-
-
 #endif

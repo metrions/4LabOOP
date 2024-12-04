@@ -71,7 +71,6 @@ public:
     double* getData() const;
     double* getBins() const;
     double* getFr() const;
-    void savePool(std::string path);
     // Деструктор
     ~Empiric();
 };

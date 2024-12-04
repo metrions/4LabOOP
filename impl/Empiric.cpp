@@ -159,19 +159,6 @@ Empiric::Empiric(std::string path) : dist(dist) {
     in.close();
 }
 
-void Empiric::savePool(std::string path){
-    std::ofstream out;
-    out.open(path);
-    for (int i=0; i<n; i++){
-        if (i == n - 1){
-            out << data[i];
-        }
-        else{
-            out << data[i] << endl;
-        }
-    }
-}
-
 double Empiric::math() const {
     return math_solve(data, n);
 }
@@ -235,7 +222,12 @@ double Empiric::density(float x) const {
 void Empiric::saveTofile(std::string path) const {
     std::ofstream out;
     out.open(path);
-    if (out.is_open()) {
-        // dist.saveTofile(path);
+    for (int i=0; i<n; i++){
+        if (i == n - 1){
+            out << data[i];
+        }
+        else{
+            out << data[i] << endl;
+        }
     }
 }
